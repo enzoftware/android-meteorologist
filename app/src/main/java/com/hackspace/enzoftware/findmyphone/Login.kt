@@ -14,6 +14,8 @@ class Login : AppCompatActivity() {
     }
 
     fun registerPhoneNumber(view:View){
-
+        val userData = UserData(this)
+        userData.savePhoneNumber(editTextPhoneNumber.text.toString())
+        finish()
     }
 }
