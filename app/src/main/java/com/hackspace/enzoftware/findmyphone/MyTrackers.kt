@@ -19,10 +19,12 @@ import kotlinx.android.synthetic.main.contact_ticket.view.*
 class MyTrackers : AppCompatActivity() {
     var adapterTicket:ContactAdapter ?= null
     var contactsList = ArrayList<UserContact>()
+    var userData:UserData ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_trackers)
         //dummyData()
+        userData = UserData(applicationContext)
         adapterTicket = ContactAdapter(this,contactsList)
         lvContacts.adapter = adapterTicket
         lvContacts.onItemClickListener = AdapterView.OnItemClickListener {
@@ -31,7 +33,11 @@ class MyTrackers : AppCompatActivity() {
             UserData.myTrackers.remove(userInfo.phone)
             refreshData()
 
+            userData!!.saveContactInformation()
         }
+
+        userData!!.loadContactInformation()
+        refreshData()
     }
 
 
@@ -127,6 +133,8 @@ class MyTrackers : AppCompatActivity() {
                             refreshData()
                             //contactsList.add(UserContact(namePerson,phoneNumber))
                             //adapterTicket!!.notifyDataSetChanged()
+                            /* SAVE TU SHRED REFERENCE */
+                            userData!!.saveContactInformation()
                         }
                     }
                 }

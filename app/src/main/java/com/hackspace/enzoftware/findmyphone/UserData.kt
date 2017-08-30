@@ -17,7 +17,7 @@ class UserData {
     }
 
     fun savePhoneNumber(numberPhone:String){
-        var editor = sharedPref!!.edit()
+        val editor = sharedPref!!.edit()
         editor.putString("numberPhone",numberPhone)
         editor.commit()
     }
@@ -30,6 +30,41 @@ class UserData {
             context!!.startActivity(intent)
         }
         return phoneNumber
+    }
+
+    fun saveContactInformation(){
+        var listOfTrackers = ""
+
+        for ((key,value) in myTrackers){
+            if( listOfTrackers.isEmpty()){
+                listOfTrackers = key + "%" + value
+            }else{
+                listOfTrackers += key + "%" + value
+            }
+        }
+
+        if (listOfTrackers.isEmpty()){
+            listOfTrackers = "empty"
+        }
+
+        val editor = sharedPref!!.edit()
+        editor.putString("listOfTrackers",listOfTrackers)
+        editor.commit()
+    }
+
+    fun loadContactInformation(){
+        myTrackers.clear()
+        val listOfTrackers = sharedPref!!.getString("listOfTrackers","empty")
+
+        if (!listOfTrackers.equals("empty")){
+            val userInfo = listOfTrackers.split("%").toTypedArray()
+            var i = 0
+            while ( i < userInfo.size){
+                myTrackers.put(userInfo[i],userInfo[i+1])
+                i += 2
+            }
+
+        }
     }
 
     companion object {
