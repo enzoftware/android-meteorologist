@@ -13,6 +13,8 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.Toast
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_my_trackers.*
 import kotlinx.android.synthetic.main.contact_ticket.view.*
 
@@ -34,6 +36,12 @@ class MyTrackers : AppCompatActivity() {
             refreshData()
 
             userData!!.saveContactInformation()
+
+            //remove from db
+
+            val mDataBase = FirebaseDatabase.getInstance().reference
+            val userData = UserData(applicationContext)
+            mDataBase.child("Users").child(userInfo.phone).child("finders").child(userData.loadPhoneNumber()).removeValue()
         }
 
         userData!!.loadContactInformation()
@@ -57,7 +65,6 @@ class MyTrackers : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
             R.id.addContat -> {
-                //TODO : Add new contact
                 checkPermission()
             }
 
@@ -136,6 +143,13 @@ class MyTrackers : AppCompatActivity() {
                             //adapterTicket!!.notifyDataSetChanged()
                             /* SAVE TU SHRED REFERENCE */
                             userData!!.saveContactInformation()
+
+                            //save in realtime database
+
+                            val mDataBase = FirebaseDatabase.getInstance().reference
+                            val userData = UserData(applicationContext)
+                            mDataBase.child("Users").child(phoneNumber).child("finders").child(userData.loadPhoneNumber()).setValue(true)
+
                         }
                     }
                 }

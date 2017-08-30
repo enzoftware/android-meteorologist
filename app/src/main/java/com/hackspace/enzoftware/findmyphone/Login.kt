@@ -47,6 +47,7 @@ class Login : AppCompatActivity() {
         userData.savePhoneNumber(editTextPhoneNumber.text.toString())
 
         mDataBase.child("Users").child(editTextPhoneNumber.text.toString()).child("request").setValue(dateFormat.format(date).toString())
+        mDataBase.child("Users").child(editTextPhoneNumber.text.toString()).child("finders").setValue(dateFormat.format(date).toString())
         finish()
     }
 }
