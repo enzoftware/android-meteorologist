@@ -127,8 +127,9 @@ class MyTrackers : AppCompatActivity() {
                                                                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + id ,null,null)
 
                             phones.moveToFirst()
-                            val phoneNumber = phones.getString(phones.getColumnIndex("data1"))
+                            var phoneNumber = phones.getString(phones.getColumnIndex("data1"))
                             val namePerson = content.getString(content.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                            phoneNumber = UserData.formatPhoneNumber(phoneNumber)
                             UserData.myTrackers.put(phoneNumber,namePerson)
                             refreshData()
                             //contactsList.add(UserContact(namePerson,phoneNumber))
