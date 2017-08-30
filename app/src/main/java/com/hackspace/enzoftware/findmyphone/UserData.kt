@@ -31,4 +31,9 @@ class UserData {
         }
         return phoneNumber
     }
+
+    companion object {
+        var myTrackers:MutableMap<String,String> = HashMap()
+
+    }
 }

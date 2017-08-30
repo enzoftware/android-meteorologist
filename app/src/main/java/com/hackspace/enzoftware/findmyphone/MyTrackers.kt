@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.support.v4.app.ActivityCompat
 import android.view.*
+import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_my_trackers.*
@@ -24,6 +25,13 @@ class MyTrackers : AppCompatActivity() {
         //dummyData()
         adapterTicket = ContactAdapter(this,contactsList)
         lvContacts.adapter = adapterTicket
+        lvContacts.onItemClickListener = AdapterView.OnItemClickListener {
+            parent, view, position, id ->
+            val userInfo = contactsList[position]
+            UserData.myTrackers.remove(userInfo.phone)
+            refreshData()
+
+        }
     }
 
 
@@ -115,8 +123,10 @@ class MyTrackers : AppCompatActivity() {
                             phones.moveToFirst()
                             val phoneNumber = phones.getString(phones.getColumnIndex("data1"))
                             val namePerson = content.getString(content.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                            contactsList.add(UserContact(namePerson,phoneNumber))
-                            adapterTicket!!.notifyDataSetChanged()
+                            UserData.myTrackers.put(phoneNumber,namePerson)
+                            refreshData()
+                            //contactsList.add(UserContact(namePerson,phoneNumber))
+                            //adapterTicket!!.notifyDataSetChanged()
                         }
                     }
                 }
@@ -125,6 +135,14 @@ class MyTrackers : AppCompatActivity() {
                 super.onActivityResult(requestCode, resultCode, data)
             }
         }
+    }
+
+    fun refreshData(){
+        contactsList.clear()
+        for ((key,value) in UserData.myTrackers){
+            contactsList.add(UserContact(value,key))
+        }
+        adapterTicket!!.notifyDataSetChanged()
     }
 
 
