@@ -27,7 +27,7 @@ server.route({
     method : 'GET' ,
     path : '/' ,
     handler : function (request, reply){
-        Request.get('http://api.football-data.org/v1/competitions/456/leagueTable' , function (error , response , body){
+        Request.get('http://api.football-data.org/v1/competitions/445/leagueTable' , function (error , response , body){
             if (error){
                 throw error;
             }
@@ -47,7 +47,7 @@ server.route({
     handler: function (request, reply) {
         const teamID = encodeURIComponent(request.params.id);
         console.log(teamID);
-        
+
         Request.get(`http://api.football-data.org/v1/teams/${teamID}`, function (error, response, body) {
             if (error) {
                 throw error;
