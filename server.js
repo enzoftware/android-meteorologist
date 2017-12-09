@@ -33,6 +33,7 @@ server.route({
             }
 
             const data = JSON.parse(body);
+            console.log(data);
             reply.view('index',{result : data});
 
         });
